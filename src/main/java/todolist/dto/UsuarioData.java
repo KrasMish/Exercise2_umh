@@ -2,6 +2,7 @@ package todolist.dto;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.List;
 
 // Data Transfer Object para la clase Usuario
 public class UsuarioData {
@@ -11,6 +12,7 @@ public class UsuarioData {
     private String nombre;
     private String password;
     private Date fechaNacimiento;
+    private List<TareaData> tareas;
 
     // Getters y setters
 
@@ -53,6 +55,13 @@ public class UsuarioData {
     // Sobreescribimos equals y hashCode para que dos usuarios sean iguales
     // si tienen el mismo ID (ignoramos el resto de atributos)
 
+    public List<TareaData> getTareas() {
+        return tareas;
+    }
+
+    public void setTareas(List<TareaData> tareas) {
+        this.tareas = tareas;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
