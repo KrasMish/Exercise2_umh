@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -71,5 +73,27 @@ public class UsuarioService {
         else {
             return modelMapper.map(usuario, UsuarioData.class);
         }
+    }
+    @Transactional(readOnly = true)
+    public List<UsuarioData> findAllUsuarios() {
+
+        List<Usuario> usuarios = (List<Usuario>) usuarioRepository.findAll();
+
+        return usuarios.stream()
+                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
+                .collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public UsuarioData findUserWithTasks(Long id) {
+
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+
+        if (usuario == null) {
+            return null;
+        }
+
+        usuario.getTareas().size();
+
+        return modelMapper.map(usuario, UsuarioData.class);
     }
 }
