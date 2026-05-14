@@ -1,5 +1,7 @@
 package todolist.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import todolist.dto.UsuarioData;
 import todolist.model.Usuario;
 import todolist.repository.UsuarioRepository;
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.Optional;
 
@@ -71,5 +74,14 @@ public class UsuarioService {
         else {
             return modelMapper.map(usuario, UsuarioData.class);
         }
+    }
+    @Transactional(readOnly = true)
+    public List<UsuarioData> findAllUsuarios() {
+
+        List<Usuario> usuarios = (List<Usuario>) usuarioRepository.findAll();
+
+        return usuarios.stream()
+                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
+                .collect(Collectors.toList());
     }
 }
